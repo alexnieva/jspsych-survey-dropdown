@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Étude de sélection des musiques</title>
+	<script src="../../jspsych.js"></script>
+  <script src="../jspsych-html-keyboard-response.js"></script>
+	<script src="jspsych-survey-dropdown.js"></script>
+  <link href="../../css/jspsych.css" rel="stylesheet" type="text/css"></link>
+</head>
+
+<body>
+</body>
+	<script>
+    /* create timeline */
+    var timeline = [];
+
+    var page_1_options = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+    var page_2_options = ["Strongly Disagree", "Disagree", "Somewhat Disagree", "Neutral", "Somewhat Agree", "Agree", "Strongly Agree"];
+
+    var multi_choice_block = {
+      type: 'survey-dropdown',
+      preamble: 'This is the PREAMBLE',
+      questions: [
+        {prompt: "I like vegetables", name: 'Vegetables', options: page_1_options, required:true},
+        {prompt: "I like fruit", name: 'Fruit', options: page_2_options, required: true},
+        {prompt: "I like chips", name: 'Chips', options: page_1_options, required: true}
+      ],
+    };
+    timeline.push(multi_choice_block);
+
+    // var multi_choice_block_horizontal = {
+    //   type: 'survey-dropdown',
+    //   questions: [
+    //     {prompt: "I like vegetables", options: page_1_options, required: true, horizontal: true,},
+    //     {prompt: "I like fruit", options: page_2_options, required: false, horizontal: true}
+    //   ],
+    // };
+    // timeline.push(multi_choice_block_horizontal);
+
+
+  var show_data = {
+    type: "html-keyboard-response",
+    stimulus: function(){
+      var html= jsPsych.data.get().json();
+      return html;
+    },
+    prompt: "<h2>Press any key to return</h2>",
+  }
+
+  timeline.push(show_data);
+
+  /* start the experiment */
+	//jatos.onLoad(function () {
+		jsPsych.init({
+			timeline: timeline,
+			on_finish: function() {
+				var resultJson = jsPsych.data.get().json();
+      //jatos.submitResultData(resultJson, jatos.startNextComponent);
+			},
+		default_iti: 250
+		});
+	//});
+	</script>
+</html>
